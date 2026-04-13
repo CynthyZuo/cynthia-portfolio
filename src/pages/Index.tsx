@@ -32,10 +32,10 @@ const Index = () => {
 
       <div className="relative z-10 w-full h-full">
         <div className="absolute top-[16%] left-[4%]">
-          <h1 className="text-foreground font-bold leading-tight" style={{ fontSize: "clamp(38px, 4vw, 52px)" }}>
+          <p className="text-foreground font-bold leading-tight" style={{ fontSize: "clamp(38px, 4vw, 52px)", fontVariantLigatures: "none" }}>
             {"< Hi >"}
-          </h1>
-          <p className="text-foreground font-bold mt-3" style={{ fontSize: "clamp(38px, 4vw, 52px)" }}>
+          </p>
+          <p className="text-foreground font-bold mt-3" style={{ fontSize: "clamp(38px, 4vw, 52px)", fontVariantLigatures: "none" }}>
             {"< I'm Cynthia >"}
           </p>
         </div>
