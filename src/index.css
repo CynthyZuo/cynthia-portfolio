@@ -34,20 +34,20 @@
 
     --radius: 0.5rem;
 
-    --font-display: "Menlo", "Menlo Regular", "Courier New", monospace;
-    --font-body: "Menlo", "Menlo Regular", "Courier New", monospace;
+    --font-display: "JetBrains Mono", "Menlo", "Courier New", monospace;
+    --font-body: "JetBrains Mono", "Menlo", "Courier New", monospace;
   }
 }
 
 @layer base {
   * {
     @apply border-border;
-    font-family: "Menlo", "Menlo Regular", "Courier New", monospace;
+    font-family: "JetBrains Mono", "Menlo", "Courier New", monospace;
   }
 
   body {
     @apply bg-background text-foreground;
-    font-family: "Menlo", "Menlo Regular", "Courier New", monospace;
+    font-family: "JetBrains Mono", "Menlo", "Courier New", monospace;
     overflow: hidden;
   }
 }
