@@ -1,0 +1,106 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 5%;
+    --foreground: 0 0% 95%;
+
+    --card: 0 0% 8%;
+    --card-foreground: 0 0% 95%;
+
+    --popover: 0 0% 8%;
+    --popover-foreground: 0 0% 95%;
+
+    --primary: 38 70% 60%;
+    --primary-foreground: 0 0% 5%;
+
+    --secondary: 0 0% 15%;
+    --secondary-foreground: 0 0% 90%;
+
+    --muted: 0 0% 15%;
+    --muted-foreground: 0 0% 60%;
+
+    --accent: 38 70% 60%;
+    --accent-foreground: 0 0% 5%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 95%;
+
+    --border: 0 0% 20%;
+    --input: 0 0% 20%;
+    --ring: 38 70% 60%;
+
+    --radius: 0.5rem;
+
+    --font-display: "Menlo", "Menlo Regular", "Courier New", monospace;
+    --font-body: "Menlo", "Menlo Regular", "Courier New", monospace;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+    font-family: "Menlo", "Menlo Regular", "Courier New", monospace;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: "Menlo", "Menlo Regular", "Courier New", monospace;
+    overflow: hidden;
+  }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-8px); }
+}
+
+@keyframes radiate {
+  0% { transform: scale(1); opacity: 0.6; }
+  100% { transform: scale(1.15); opacity: 0.3; }
+}
+
+@keyframes orbit-text {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+.animate-float-delay-1 {
+  animation: float 3.5s ease-in-out 0.5s infinite;
+}
+
+.animate-float-delay-2 {
+  animation: float 2.8s ease-in-out 1s infinite;
+}
+
+.animate-float-delay-3 {
+  animation: float 3.2s ease-in-out 1.5s infinite;
+}
+
+.animate-radiate {
+  animation: radiate 8s linear infinite;
+}
+
+.animate-orbit {
+  animation: orbit-text 12s linear infinite;
+}
+
+/* Dots loading animation for "the next landing..." */
+.dots-loading::after {
+  content: '';
+  animation: dots-cycle 1.5s steps(1) infinite;
+}
+
+@keyframes dots-cycle {
+  0%   { content: ''; }
+  25%  { content: '.'; }
+  50%  { content: '..'; }
+  75%  { content: '...'; }
+  100% { content: ''; }
+}

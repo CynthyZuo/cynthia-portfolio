@@ -1,0 +1,22 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//private/tmp/**)",
+      "Bash(unzip -o /Users/cynthiazuo/Downloads/moon-glow-orbit-main.zip -d moon-glow-orbit)",
+      "Bash(npm install:*)",
+      "Bash(sudo chown:*)",
+      "Bash(python3 -c \":*)",
+      "Bash(xargs ls:*)",
+      "Bash(find '/Users/cynthiazuo/Desktop/AIGC 项目' -name *logo* -o -name *封面* -o -name *poster* -o -name *cover*)",
+      "Bash(find '/Users/cynthiazuo/Desktop/AIGC 项目' /Users/cynthiazuo/Desktop -maxdepth 3 -name *.png -o -name *.jpg)",
+      "Bash(git -C /Users/cynthiazuo/Desktop/cc_test status)",
+      "Bash(git -C /Users/cynthiazuo/Desktop/cc_test remote -v)",
+      "Bash(git lfs:*)",
+      "Bash(gh auth:*)",
+      "Bash(brew --version)",
+      "Bash(git --version)",
+      "Bash(git init:*)",
+      "Bash(git add:*)"
+    ]
+  }
+}
