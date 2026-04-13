@@ -14,7 +14,7 @@ const VideoWorks = () => (
       {/* Video 1: Video Essay - 16:9 horizontal */}
       <div className="mb-20">
         <div className="max-w-[860px] mx-auto">
-          <video className="w-full aspect-video rounded-lg" controls src="/video-a24.mov" />
+          <video className="w-full aspect-video rounded-lg" controls poster="/poster-a24.png" src="/video-a24.mov" />
           <div className="mt-5" style={{ fontFamily: "var(--font-body)" }}>
             <p className="text-foreground text-sm">
               Video Essay &nbsp;&nbsp; Director & Editor
@@ -52,7 +52,7 @@ const VideoWorks = () => (
       {/* Video 3: Short Documentary - 16:9 horizontal */}
       <div className="mb-20">
         <div className="max-w-[860px] mx-auto">
-          <video className="w-full aspect-video rounded-lg" controls src="/video-documentary.mp4" />
+          <video className="w-full aspect-video rounded-lg" controls poster="/poster-documentary.jpg" src="/video-documentary.mp4" />
           <div className="mt-5" style={{ fontFamily: "var(--font-body)" }}>
             <p className="text-foreground text-sm">
               Short Documentary &nbsp;&nbsp; Director & Editor

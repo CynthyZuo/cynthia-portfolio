@@ -5,14 +5,13 @@ import minuteHand from "@/assets/minute-hand.png";
 
 // ── Layout constants ────────────────────────────────────────────────
 const SUN_SIZE = 335;
-const ARM_WIDTH = 195; // visual width of each arm (height is auto from image ratio)
+const ARM_WIDTH = 195;      // minute hand width
+const HOUR_ARM_WIDTH = 150; // hour hand width
+// hour-hand.png: 1412×1536 → at 150px wide, natural height ≈ 163px
+const HOUR_ARM_HEIGHT = Math.round(HOUR_ARM_WIDTH * 1536 / 1412); // 163px
 
-// minute-hand.png: 1260×1536  → at 195px wide, natural height ≈ 238px
-// hour-hand.png:  1412×1536  → at 195px wide, natural height ≈ 212px
-// NO object-contain: image fills exactly ARM_WIDTH wide, shoulder sits at y=0 of div
-
-// Hour hand orbit radius (matches blue circle in reference ≈ 1/5 of sun size)
-const HOUR_ORBIT_R = SUN_SIZE / 5; // 67px — shoulder orbits this circle inside sun
+// Hour hand orbit radius
+const HOUR_ORBIT_R = 47; // px — anchor (bottom) orbits this circle inside sun
 
 // Minute hand: shoulder FIXED (independent of hour orbit radius)
 const MINUTE_ANCHOR_X = 216; // px from left of sun div
@@ -63,30 +62,31 @@ const Sun = () => {
   }, []);
 
   // ── Hour hand ────────────────────────────────────────────────────
-  // Shoulder orbits HOUR_ORBIT_R circle (centred at sun centre) at 1/12 speed.
+  // anchorX/Y: bottom-center of arm div tracks standard polar coords.
+  // transformOrigin = bottom-center; rotation = angle.
+  // Result: arm extends radially outward; reverse line passes through sun centre.
   const hourRad = hourDeg * (Math.PI / 180);
-  const shoulderX = SUN_SIZE / 2 + Math.cos(hourRad) * HOUR_ORBIT_R;
-  const shoulderY = SUN_SIZE / 2 + Math.sin(hourRad) * HOUR_ORBIT_R;
-  const hourCSS = 90 - hourDeg; // arm always points outward from orbit centre
+  const anchorX = SUN_SIZE / 2 + Math.cos(hourRad) * HOUR_ORBIT_R;
+  const anchorY = SUN_SIZE / 2 + Math.sin(hourRad) * HOUR_ORBIT_R;
 
   return (
     <div
       ref={containerRef}
       className="relative"
-      style={{ width: SUN_SIZE, height: SUN_SIZE }}
+      style={{ width: SUN_SIZE, height: SUN_SIZE, transform: "scale(0.82)", transformOrigin: "center center" }}
     >
       {/* ── Hour hand: below sun body ─────────────────────────── */}
-      {/* Shoulder at (shoulderX, shoulderY); arm extends outward. */}
-      {/* top: shoulderY  → TOP of div = shoulder → y=0 of div    */}
-      {/* transformOrigin: centre-top of div = shoulder point      */}
+      {/* Bottom-center of div pinned to (anchorX, anchorY) on orbit circle. */}
+      {/* transformOrigin: bottom-center; rotation = hourDeg.                */}
       <div
         className="absolute z-[5]"
         style={{
-          width: ARM_WIDTH,
-          left: shoulderX - ARM_WIDTH / 2,
-          top: shoulderY,
-          transformOrigin: `${ARM_WIDTH / 2}px 0px`,
-          transform: `rotate(${hourCSS}deg)`,
+          width: HOUR_ARM_WIDTH,
+          height: HOUR_ARM_HEIGHT,
+          left: anchorX - HOUR_ARM_WIDTH / 2,
+          top: anchorY,
+          transformOrigin: `${HOUR_ARM_WIDTH / 2}px 0px`,
+          transform: `rotate(${hourDeg - 90}deg)`,
         }}
       >
         <img
