@@ -14,7 +14,7 @@ const VideoWorks = () => (
       {/* Video 1: Video Essay - 16:9 horizontal */}
       <div className="mb-20">
         <div className="max-w-[860px] mx-auto">
-          <video className="w-full aspect-video rounded-lg" controls poster="/poster-a24.png" src="https://10personalweb-1421781834.cos.ap-beijing.myqcloud.com/A24" />
+          <video className="w-full aspect-video rounded-lg" controls poster="/poster-a24.png" src="https://10personalweb-1421781834.cos.ap-beijing.myqcloud.com/A24.mov" />
           <div className="mt-5" style={{ fontFamily: "var(--font-body)" }}>
             <p className="text-foreground text-sm">
               Video Essay &nbsp;&nbsp; Director & Editor
@@ -34,7 +34,7 @@ const VideoWorks = () => (
         <div className="max-w-[860px] mx-auto flex items-center gap-0">
           <div className="flex-[0_0_30%] pr-5" />
           <div className="flex-[0_0_40%] flex justify-center">
-            <video className="w-full max-w-[320px] aspect-[9/16] rounded-lg" controls src="https://10personalweb-1421781834.cos.ap-beijing.myqcloud.com/tencentvideo" />
+            <video className="w-full max-w-[320px] aspect-[9/16] rounded-lg" controls src="https://10personalweb-1421781834.cos.ap-beijing.myqcloud.com/Tencent%20Video.mov" />
           </div>
           <div className="flex-[0_0_30%] pl-5 flex items-center">
             <div style={{ fontFamily: "var(--font-body)" }}>
@@ -52,7 +52,7 @@ const VideoWorks = () => (
       {/* Video 3: Short Documentary - 16:9 horizontal */}
       <div className="mb-20">
         <div className="max-w-[860px] mx-auto">
-          <video className="w-full aspect-video rounded-lg" controls poster="/poster-documentary.jpg" src="https://10personalweb-1421781834.cos.ap-beijing.myqcloud.com/Short%20Documentary" />
+          <video className="w-full aspect-video rounded-lg" controls poster="/poster-documentary.jpg" src="https://10personalweb-1421781834.cos.ap-beijing.myqcloud.com/short%20documentary.mov" />
           <div className="mt-5" style={{ fontFamily: "var(--font-body)" }}>
             <p className="text-foreground text-sm">
               Short Documentary &nbsp;&nbsp; Director & Editor
@@ -70,7 +70,7 @@ const VideoWorks = () => (
       {/* Video 4: Short Video Ads - 16:9 horizontal */}
       <div className="mb-20">
         <div className="max-w-[860px] mx-auto">
-          <video className="w-full aspect-video rounded-lg" controls poster="/poster-kuaike.png" src="https://10personalweb-1421781834.cos.ap-beijing.myqcloud.com/Short%20Video%20Ads" />
+          <video className="w-full aspect-video rounded-lg" controls poster="/poster-kuaike.png" src="https://10personalweb-1421781834.cos.ap-beijing.myqcloud.com/Short%20Video%20Ads.mp4" />
           <div className="mt-5" style={{ fontFamily: "var(--font-body)" }}>
             <p className="text-foreground text-sm">
               Short Video Ads &nbsp;&nbsp; Director & Editor

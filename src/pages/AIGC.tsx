@@ -13,7 +13,7 @@ const AIGC = () => (
         className="w-full max-w-[860px] aspect-video rounded-lg"
         controls
         poster="/poster-clockwork-city.png"
-        src="https://10personalweb-1421781834.cos.ap-beijing.myqcloud.com/AI%20Anime"
+        src="https://10personalweb-1421781834.cos.ap-beijing.myqcloud.com/AI%20Anime.mp4"
       />
 
       {/* Text */}
