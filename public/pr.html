@@ -207,7 +207,7 @@
         }
 
         .skills-header {
-            margin-bottom: 40px;
+            margin-bottom: 20px;
             opacity: 0;
             text-align: center;
             padding: 0 10px;
@@ -239,7 +239,7 @@
 
         .stacked-card {
             position: absolute;
-            width: 160px;
+            width: 175px;
             height: 340px;
             background: white;
             border: 2px solid var(--primary-blue);
@@ -536,7 +536,6 @@
     <section class="section-skills" id="page-1">
         <div class="skills-header">
             <h2>我的能力匹配</h2>
-            <p>新闻与编导的复合背景，让我无论面对文稿还是视频内容，都具备从策划到执行到呈现的闭环能力</p>
         </div>
 
         <div class="stacked-cards-container" id="cardsContainer">
@@ -755,7 +754,7 @@
         // 卡片布局逻辑 - 选中居中
         const cards = document.querySelectorAll('.stacked-card');
         const container = document.getElementById('cardsContainer');
-        const cardWidth = 160;
+        const cardWidth = 175;
         const sidebarWidth = 42;
 
         function setCardPositions(activeIndex = -1) {
