@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>对公关工作的理解</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+        :root {
+            --primary-blue: #1E4AE9;
+            --light-blue: #4A7BF7;
+            --dark-blue: #0F2D8A;
+            --accent-blue: #60A5FA;
+            --text-primary: #1A1A1A;
+            --text-secondary: #6B7280;
+            --bg-white: #FFFFFF;
+            --border-light: #E5E7EB;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--bg-white);
+            color: var(--text-primary);
+            overflow-x: hidden;
+            line-height: 1.8;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        /* 页面导航点 */
+        .page-dots {
+            position: fixed;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            z-index: 1000;
+        }
+
+        .page-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--border-light);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .page-dot.active {
+            background: var(--primary-blue);
+            transform: scale(1.3);
+        }
+
+        /* 第一页：封面 */
+        .section-cover {
+            min-height: 100vh;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+        }
+
+        .bubbles-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 55%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .bubble {
+            position: absolute;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            font-weight: 500;
+            padding: 12px;
+            line-height: 1.4;
+            background: radial-gradient(circle at 30% 30%, var(--light-blue), var(--primary-blue));
+            box-shadow: 0 10px 40px rgba(30, 74, 233, 0.3), inset 0 -5px 20px rgba(0, 0, 0, 0.1);
+            opacity: 0;
+            font-size: 11px !important;
+        }
+
+        .bubble-1 { width: 100px; height: 100px; top: 15%; left: 8%; }
+        .bubble-2 { width: 85px; height: 85px; top: 8%; left: 38%; }
+        .bubble-3 { width: 95px; height: 95px; top: 12%; right: 12%; }
+        .bubble-4 { width: 80px; height: 80px; top: 40%; left: 5%; }
+        .bubble-5 {
+            width: 120px; height: 120px;
+            top: 35%; left: 50%;
+            transform: translateX(-50%);
+            font-size: 13px !important;
+            font-weight: 600;
+            background: radial-gradient(circle at 30% 30%, #5B8CF8, var(--primary-blue));
+            box-shadow: 0 15px 50px rgba(30, 74, 233, 0.4);
+        }
+
+        .cover-title {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--primary-blue);
+            opacity: 0;
+            filter: blur(10px);
+            z-index: 10;
+            text-align: center;
+            white-space: nowrap;
+        }
+
+        .building-base {
+            position: relative;
+            width: 100%;
+            height: 45vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-end;
+        }
+
+        .building-layer {
+            border-radius: 12px 12px 0 0;
+            position: relative;
+            opacity: 0;
+            transform: translateY(100px);
+        }
+
+        .building-layer-1 {
+            height: 120px;
+            width: 98%;
+            background: linear-gradient(135deg, #2a5af0 0%, var(--dark-blue) 100%);
+            z-index: 3;
+        }
+
+        .building-layer-2 {
+            height: 105px;
+            width: 92%;
+            background: linear-gradient(135deg, #3d6bf5 0%, #1a3fa8 100%);
+            margin-bottom: -20px;
+            z-index: 2;
+        }
+
+        .building-layer-3 {
+            height: 90px;
+            width: 85%;
+            background: linear-gradient(135deg, var(--light-blue) 0%, var(--primary-blue) 100%);
+            margin-bottom: -20px;
+            z-index: 1;
+        }
+
+        .building-text {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            color: white;
+            font-size: 14px;
+            line-height: 1.8;
+            text-align: center;
+            opacity: 0;
+            font-weight: 300;
+        }
+
+        /* 气泡浮动动画 */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .bubble-1 { animation: float 4s ease-in-out infinite; }
+        .bubble-2 { animation: float 4s ease-in-out 0.5s infinite; }
+        .bubble-3 { animation: float 4s ease-in-out 1s infinite; }
+        .bubble-4 { animation: float 4s ease-in-out 1.5s infinite; }
+        .bubble-5 { animation: float 4s ease-in-out 2s infinite; }
+
+        /* 第二页：能力匹配 */
+        .section-skills {
+            min-height: 100vh;
+            padding: 60px 15px;
+            position: relative;
+            background: var(--bg-white);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .skills-header {
+            margin-bottom: 40px;
+            opacity: 0;
+            text-align: center;
+            padding: 0 10px;
+        }
+
+        .skills-header h2 {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 12px;
+        }
+
+        .skills-header p {
+            font-size: 15px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .stacked-cards-container {
+            position: relative;
+            width: 100%;
+            height: 400px;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            padding-bottom: 20px;
+            touch-action: pan-y;
+        }
+
+        .stacked-card {
+            position: absolute;
+            width: 160px;
+            height: 340px;
+            background: white;
+            border: 2px solid var(--primary-blue);
+            border-radius: 12px;
+            box-shadow: 0 8px 30px rgba(30, 74, 233, 0.15);
+            display: flex;
+            overflow: hidden;
+            transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+            cursor: pointer;
+            opacity: 0;
+            bottom: 0;
+            -webkit-user-select: none;
+            user-select: none;
+        }
+
+        .stacked-card.active {
+            z-index: 100 !important;
+            box-shadow: 0 25px 60px rgba(30, 74, 233, 0.25);
+        }
+
+        .card-sidebar {
+            width: 42px;
+            background: linear-gradient(180deg, var(--light-blue), var(--primary-blue));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            position: relative;
+            z-index: 2;
+        }
+
+        .card-sidebar-text {
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
+            color: white;
+            font-weight: 700;
+            font-size: 16px;
+            letter-spacing: 3px;
+            white-space: nowrap;
+            line-height: 1;
+        }
+
+        .card-content {
+            flex: 1;
+            padding: 20px 12px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            overflow-y: auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .card-content p {
+            font-size: 12px;
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        .card-number {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 36px;
+            font-weight: 700;
+            color: rgba(30, 74, 233, 0.08);
+            line-height: 1;
+            z-index: 0;
+        }
+
+        /* 第三页：价值观 */
+        .section-values {
+            min-height: 100vh;
+            position: relative;
+            background: var(--bg-white);
+        }
+
+        .values-top {
+            padding: 20px 24px 0px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .values-header {
+            margin-bottom: 30px;
+            opacity: 0;
+        }
+
+        .values-header h2 {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 12px;
+        }
+
+        .values-content {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+            align-items: start;
+        }
+
+        .values-text {
+            opacity: 0;
+        }
+
+        .values-text p {
+            font-size: 15px;
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin-bottom: 12px;
+        }
+
+        .values-text .highlight {
+            color: var(--primary-blue);
+            font-weight: 500;
+        }
+
+        .underline-text {
+            text-decoration: underline;
+            text-underline-offset: 3px;
+        }
+
+        .values-visual {
+            position: relative;
+            height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .particle-arrow {
+            position: relative;
+            width: 150px;
+            height: 50px;
+        }
+
+        .particle {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background: var(--primary-blue);
+            border-radius: 50%;
+            opacity: 0;
+        }
+
+        /* 波浪与蓝色区域 */
+        .values-bottom-wrapper {
+            position: relative;
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(80px);
+        }
+
+        .wave-top {
+            position: relative;
+            height: 50px;
+            overflow: hidden;
+            background: var(--bg-white);
+        }
+
+        .wave-top svg {
+            position: absolute;
+            bottom: 0;
+            width: 200%;
+            height: 100%;
+            animation: waveScroll 8s linear infinite;
+        }
+
+        @keyframes waveScroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        .wave-fill {
+            fill: var(--primary-blue);
+        }
+
+        .values-bottom {
+            background: var(--primary-blue);
+            padding: 0px 24px 60px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .values-bottom::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 60%);
+            animation: pulse 8s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+        }
+
+        .values-bottom-content {
+            max-width: 900px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .values-bottom h3 {
+            font-size: 24px;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 30px;
+            text-align: center;
+            padding-top: 20px;
+        }
+
+        .values-bottom p {
+            font-size: 15px;
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 2;
+            margin-bottom: 16px;
+        }
+
+        .tidal-zone {
+            color: white;
+            font-weight: 600;
+            animation: breathe 2s ease-in-out infinite;
+        }
+
+        @keyframes breathe {
+            0%, 100% { opacity: 0.7; }
+            50% { opacity: 1; text-shadow: 0 0 20px rgba(96, 165, 250, 0.5); }
+        }
+
+        .quote-box {
+            margin-top: 40px;
+            padding: 30px 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            border-left: 4px solid var(--accent-blue);
+            backdrop-filter: blur(10px);
+        }
+
+        .quote-box p {
+            font-size: 16px;
+            font-weight: 500;
+            color: white;
+            font-style: italic;
+            line-height: 1.8;
+            margin: 0;
+        }
+
+        .quote-box a {
+            color: white;
+            text-decoration: underline;
+            text-underline-offset: 4px;
+        }
+    </style>
+<base target="_blank">
+</head>
+<body>
+    <!-- 页面导航点 -->
+    <div class="page-dots">
+        <div class="page-dot active" data-page="0"></div>
+        <div class="page-dot" data-page="1"></div>
+        <div class="page-dot" data-page="2"></div>
+    </div>
+
+    <!-- 第一页：封面 -->
+    <section class="section-cover" id="page-0">
+        <div class="bubbles-container">
+            <div class="bubble bubble-1">阶段战略<br>制定</div>
+            <div class="bubble bubble-2">日常关系<br>维护</div>
+            <div class="bubble bubble-3">舆情监测与<br>风险预警</div>
+            <div class="bubble bubble-4">危机应对与<br>叙事修复</div>
+            <div class="bubble bubble-5">品牌心智与<br>价值叙事</div>
+        </div>
+
+        <h1 class="cover-title">对公关的理解</h1>
+
+        <div class="building-base">
+            <div class="building-layer building-layer-3"></div>
+            <div class="building-layer building-layer-2"></div>
+            <div class="building-layer building-layer-1">
+                <p class="building-text">
+                    在我的认知中，公关工作涵盖阶段战略制定、日常关系维护、舆情监测与风险预警、危机应对与叙事修复、品牌心智与价值叙事五个维度，推动用户从"知道"到"信任"再到"认同"。这是一个持续构建的过程——公关像建筑师，负责搭建用户认知的结构，也对这座建筑的现状维护、长远规划与风险防控全程负责。
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 第二页：能力匹配 -->
+    <section class="section-skills" id="page-1">
+        <div class="skills-header">
+            <h2>我的能力匹配</h2>
+            <p>新闻与编导的复合背景，让我无论面对文稿还是视频内容，都具备从策划到执行到呈现的闭环能力</p>
+        </div>
+
+        <div class="stacked-cards-container" id="cardsContainer">
+            <div class="stacked-card" data-index="0" data-title="全流程内容生产力">
+                <div class="card-sidebar">
+                    <span class="card-sidebar-text">全流程内容生产力</span>
+                </div>
+                <div class="card-content">
+                    <p>新闻与编导的复合背景，让我无论面对文稿还是视频内容，都具备从策划到执行到呈现的闭环能力。在腾讯新闻体育实习期间，我深度参与运动员专访项目，负责策划→拍摄→剪辑→多平台分发的完整链路。</p>
+                </div>
+                <div class="card-number">01</div>
+            </div>
+
+            <div class="stacked-card" data-index="1" data-title="内容矩阵运营">
+                <div class="card-sidebar">
+                    <span class="card-sidebar-text">内容矩阵运营</span>
+                </div>
+                <div class="card-content">
+                    <p>熟悉视频号、抖音、小红书等平台的用户画像，能够根据平台特性进行差异化内容分发；同时了解腾讯内容生态，能够有意识地调动内部资源进行声量扩张。</p>
+                </div>
+                <div class="card-number">02</div>
+            </div>
+
+            <div class="stacked-card" data-index="2" data-title="数据复盘意识">
+                <div class="card-sidebar">
+                    <span class="card-sidebar-text">数据复盘意识</span>
+                </div>
+                <div class="card-content">
+                    <p>腾讯新闻实习培养了我"内容—数据—迭代"的工作思维，能从数据中识别用户偏好，通过A/B Test提升资源投入效率，并借助ROI分析复盘传播效果，为下一次公关传播提供决策依据。</p>
+                </div>
+                <div class="card-number">03</div>
+            </div>
+
+            <div class="stacked-card" data-index="3" data-title="沟通与关系维护">
+                <div class="card-sidebar">
+                    <span class="card-sidebar-text">沟通与关系维护</span>
+                </div>
+                <div class="card-content">
+                    <p>具备良好的亲和力与洞察力，能与外部利益相关方建立并维护稳定的合作关系，高效推动工作落地。</p>
+                </div>
+                <div class="card-number">04</div>
+            </div>
+
+            <div class="stacked-card" data-index="4" data-title="高压场景的精准响应">
+                <div class="card-sidebar">
+                    <span class="card-sidebar-text">高压场景的精准响应</span>
+                </div>
+                <div class="card-content">
+                    <p>腾讯冬奥专题7×24小时赛事追踪经历，让我在高强度、高不确定性环境中仍能保持输出质量与响应速度的平衡。</p>
+                </div>
+                <div class="card-number">05</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 第三页：价值观 -->
+    <section class="section-values" id="page-2">
+        <div class="values-top">
+            <div class="values-header">
+                <h2>对公关工作的个人想法</h2>
+            </div>
+
+            <div class="values-content">
+                <div class="values-text">
+                    <p>无论是日常的人际关系，还是面对想达成的目标，我都是一个习惯<span class="highlight">"主动出击"</span>的人。这种主动性同样贯穿我对公关工作的理解——日常维护、战略制定、心智建设，这些主动性工作才是公关价值的核心所在。</p>
+                    <p>被动的危机应对不可避免，但我坚信：只要主动工作足够扎实，始终坚持<span class="highlight">"用户为本，科技向善"</span>，持续聆听用户声音，致力于用企业的力量让世界变得更好，危机就会越来越少。企业的价值观也将通过公关所做的、具有人文关怀的工作，转化为用户可感知、可记忆、可传播的内容符号。</p>
+                </div>
+
+                <div class="values-visual">
+                    <div class="particle-arrow" id="particleArrow"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="values-bottom-wrapper">
+            <div class="wave-top">
+                <svg viewBox="0 0 2880 100" preserveAspectRatio="none">
+                    <path class="wave-fill" d="M0,100 L0,40 Q180,0 360,40 T720,40 T1080,40 T1440,40 T1800,40 T2160,40 T2520,40 T2880,40 L2880,100 Z" />
+                </svg>
+            </div>
+
+            <div class="values-bottom">
+                <div class="values-bottom-content">
+                    <h3>对腾讯企业使命的理解</h3>
+                    <p>我认同腾讯<span class="highlight underline-text">"用户为本，科技向善"</span>的企业使命。在AI高速发展的今天，人文关怀对科技企业而言尤为重要。</p>
+                    <p>2026年，AI带来的焦虑已蔓延至各行各业——影视、文学、美术、法律、软件开发......从创作者到专业人士，人们既担忧隐私空间被侵蚀、生存空间被压缩，也在共同等待一条人与AI之间既共存又分离的<span class="tidal-zone underline-text">"潮间带"</span>。</p>
+                    <p>腾讯作为站在全球科技前沿的企业，"科技向善"的选择传递出一个明确的信号：技术的终点是人类的福祉，而非取代。当技术的发展始终以人为本，焦虑才能真正化为前行的动力。这不仅是对当下迷茫者的一种安慰，更是一种企业担当。我也希望能跟随这一方向，通过公关的工作，<span class="underline-text">让腾讯的价值观被更多人看见，让社会变得更加和平与美好。</span></p>
+
+                    <div class="quote-box">
+                        <p>访问CynthiaZuo的个人网站：<a href="https://cynthia-cosmo.cn" target="_blank">cynthia-cosmo.cn</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // 页面导航点
+        const dots = document.querySelectorAll('.page-dot');
+        const sections = document.querySelectorAll('section');
+
+        dots.forEach((dot, index) => {
+            dot.addEventListener('click', () => {
+                sections[index].scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+
+        function updateDots() {
+            const scrollTop = window.scrollY + window.innerHeight / 2;
+            sections.forEach((section, index) => {
+                const top = section.offsetTop;
+                const bottom = top + section.offsetHeight;
+                if (scrollTop >= top && scrollTop < bottom) {
+                    dots.forEach(d => d.classList.remove('active'));
+                    dots[index].classList.add('active');
+                }
+            });
+        }
+
+        window.addEventListener('scroll', updateDots);
+
+        // GSAP 动画
+        gsap.registerPlugin(ScrollTrigger);
+
+        // 第一页动画
+        const tl1 = gsap.timeline({ delay: 0.3 });
+
+        tl1.to('.building-layer-3', {
+            y: 0,
+            opacity: 1,
+            duration: 0.8,
+            ease: 'power3.out'
+        })
+        .to('.building-layer-2', {
+            y: 0,
+            opacity: 1,
+            duration: 0.8,
+            ease: 'power3.out'
+        }, '-=0.5')
+        .to('.building-layer-1', {
+            y: 0,
+            opacity: 1,
+            duration: 0.8,
+            ease: 'power3.out'
+        }, '-=0.5')
+        .to('.building-text', {
+            opacity: 1,
+            duration: 1,
+            ease: 'power2.out'
+        }, '-=0.3')
+        .to('.bubble-1', {
+            opacity: 1,
+            scale: 1,
+            duration: 0.6,
+            ease: 'elastic.out(1, 0.5)'
+        }, '-=0.8')
+        .to('.bubble-2', {
+            opacity: 1,
+            scale: 1,
+            duration: 0.6,
+            ease: 'elastic.out(1, 0.5)'
+        }, '-=0.5')
+        .to('.bubble-3', {
+            opacity: 1,
+            scale: 1,
+            duration: 0.6,
+            ease: 'elastic.out(1, 0.5)'
+        }, '-=0.5')
+        .to('.bubble-4', {
+            opacity: 1,
+            scale: 1,
+            duration: 0.6,
+            ease: 'elastic.out(1, 0.5)'
+        }, '-=0.5')
+        .to('.bubble-5', {
+            opacity: 1,
+            scale: 1,
+            duration: 0.7,
+            ease: 'elastic.out(1, 0.5)'
+        }, '-=0.5')
+        .to('.cover-title', {
+            opacity: 1,
+            filter: 'blur(0px)',
+            duration: 1,
+            ease: 'power2.out'
+        }, '-=0.5');
+
+        gsap.set('.bubble', { scale: 0.5 });
+        gsap.set('.building-layer', { y: 100 });
+
+        // 第二页 - 卡片动画
+        ScrollTrigger.create({
+            trigger: '.section-skills',
+            start: 'top 80%',
+            onEnter: () => {
+                gsap.to('.skills-header', {
+                    opacity: 1,
+                    y: 0,
+                    duration: 0.8,
+                    ease: 'power2.out'
+                });
+
+                gsap.to('.stacked-card', {
+                    opacity: 1,
+                    duration: 0.6,
+                    stagger: 0.15,
+                    ease: 'power3.out',
+                    delay: 0.3
+                });
+            },
+            once: true
+        });
+
+        gsap.set('.skills-header', { y: 30 });
+
+        // 卡片布局逻辑 - 选中居中
+        const cards = document.querySelectorAll('.stacked-card');
+        const container = document.getElementById('cardsContainer');
+        const cardWidth = 160;
+        const sidebarWidth = 42;
+
+        function setCardPositions(activeIndex = -1) {
+            const containerWidth = container.offsetWidth;
+            const centerX = containerWidth / 2 - cardWidth / 2;
+            const offset = sidebarWidth + 8;
+
+            cards.forEach((card, index) => {
+                let x = centerX + (index - 2) * offset;
+                let y = 0;
+                let scale = 1;
+                let zIndex = parseInt(card.dataset.index) + 1;
+
+                if (activeIndex !== -1) {
+                    const diff = index - activeIndex;
+                    if (index === activeIndex) {
+                        y = -50;
+                        scale = 1.02;
+                        zIndex = 100;
+                    } else {
+                        x = centerX + (index - activeIndex) * offset + (diff > 0 ? 20 : -20);
+                    }
+                }
+
+                card.style.transform = `translateX(${x}px) translateY(${y}px) scale(${scale})`;
+                card.style.zIndex = zIndex;
+                card.style.left = '0';
+            });
+        }
+
+        setTimeout(() => setCardPositions(), 100);
+        window.addEventListener('resize', () => setCardPositions());
+
+        // 触摸/点击交互
+        cards.forEach((card, index) => {
+            card.addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                setCardPositions(index);
+            }, { passive: false });
+
+            card.addEventListener('click', () => {
+                setCardPositions(index);
+            });
+        });
+
+        // 点击空白处复位
+        container.addEventListener('click', (e) => {
+            if (e.target === container) {
+                setCardPositions(-1);
+            }
+        });
+
+        // 第三页滚动动画
+        ScrollTrigger.create({
+            trigger: '.section-values',
+            start: 'top 70%',
+            onEnter: () => {
+                gsap.to('.values-header', {
+                    opacity: 1,
+                    y: 0,
+                    duration: 0.8,
+                    ease: 'power2.out'
+                });
+
+                gsap.to('.values-text', {
+                    opacity: 1,
+                    y: 0,
+                    duration: 1,
+                    ease: 'power2.out',
+                    delay: 0.2
+                });
+
+                createParticles();
+            },
+            once: true
+        });
+
+        gsap.set('.values-header', { y: 30 });
+        gsap.set('.values-text', { y: 30 });
+
+        ScrollTrigger.create({
+            trigger: '.values-bottom-wrapper',
+            start: 'top 85%',
+            onEnter: () => {
+                gsap.to('.values-bottom-wrapper', {
+                    opacity: 1,
+                    y: 0,
+                    duration: 1.2,
+                    ease: 'power3.out'
+                });
+            },
+            once: true
+        });
+
+        // 粒子动画
+        function createParticles() {
+            const container = document.getElementById('particleArrow');
+            const particleCount = 15;
+
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                container.appendChild(particle);
+
+                const startY = Math.random() * 40;
+                const delay = Math.random() * 2;
+                const duration = 1.5 + Math.random() * 1;
+
+                gsap.to(particle, {
+                    x: 150,
+                    y: startY + (Math.random() - 0.5) * 30,
+                    opacity: 0,
+                    duration: duration,
+                    delay: delay,
+                    repeat: -1,
+                    ease: 'power2.out',
+                    onStart: function() {
+                        gsap.set(particle, {
+                            x: 0,
+                            y: startY,
+                            opacity: 1
+                        });
+                    }
+                });
+            }
+        }
+    </script>
+</body>
+</html>
